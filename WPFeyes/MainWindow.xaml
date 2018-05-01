@@ -14,6 +14,8 @@
     </Window.Background>
     <Window.Resources>
         <ContextMenu x:Key="cm">
+            <MenuItem Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip"/>
+            <MenuItem Header="_Move with left click and Drag" IsCheckable="True" IsChecked="True" Click="dragMove"/>
             <MenuItem Header="_Refresh Rate">
                 <MenuItem Header="2Hz"   Tag="2"   Click="changeHz"/>
                 <MenuItem Header="10Hz"  Tag="10"  Click="changeHz"/>
@@ -27,14 +29,29 @@
                 <MenuItem Header="_10% transperent Gray"  Click="changeOpacity" Tag="10" />
                 <MenuItem Header="_30% transperent Gray"  Click="changeOpacity" Tag="30" />
                 <MenuItem Header="_60% transperent Gray"  Click="changeOpacity" Tag="60" />
-                <MenuItem Header="_Gray Background"       Click="changeOpacity" Tag="100"/>
+                <MenuItem Header="_Solid Background"       Click="changeOpacity" Tag="100"/>
+                <MenuItem Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY"/>
             </MenuItem>
-            <MenuItem Header="_Show Grip" IsCheckable="True" IsChecked="True" Click="showGrip"/>
-            <MenuItem Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY"/>
-            <MenuItem Header="_Exit" IsCheckable="True" IsChecked="False" Click="exit"/>
+            <!-- 
+            <MenuItem Header="Background Color">
+                <MenuItem Header="Gray" Click="setColor" Tag="Gray"/>
+                <MenuItem Header="LightGray" Click="setColor" Tag="LightGray"/>
+                <MenuItem Header="Beige" Click="setColor" Tag="Beige"/>
+                <MenuItem Header="Red" Click="setColor" Tag="Red"/>
+                <MenuItem Header="DarkBlue" Click="setColor" Tag="DarkBlue"/>
+                <MenuItem Header="Black" Click="setColor" Tag="Black"/>
+            </MenuItem>
+            -->
+            <MenuItem Header="_Help and About">
+                <MenuItem Header="_About WpfEyes" Click="about"/>
+                <MenuItem Header="_Browse to Documentation Wiki / User Guide" Click="browse" Tag="https://github.com/kmecke/WpfEyes"/>
+                <MenuItem Header="_Browse to project page on Github" Click="browse" Tag="https://github.com/kmecke/WpfEyes/wiki"/>
+                <MenuItem Header="_Browse to personal website mecke.net" Click="browse" Tag="http://www.mecke.net/"/>
+            </MenuItem>
+            <MenuItem Header="_Exit" Click="exit"/>
         </ContextMenu>
     </Window.Resources>
-    <DockPanel SizeChanged="DockPanel_SizeChanged" Margin="0" MouseRightButtonDown="menu">
+    <DockPanel SizeChanged="DockPanel_SizeChanged" Margin="0" MouseRightButtonDown="menu" >
         <Canvas x:Name="canvas1" SizeChanged="canvas1_SizeChanged" Margin="10">
             <Ellipse x:Name="E1" Fill="White" Stroke="Black" HorizontalAlignment="Left" Canvas.Left="0"   VerticalAlignment="Top" Canvas.Top="0"  Height="80" Width="80" StrokeThickness="1" MouseRightButtonDown="menu" MouseLeftButtonDown="moveWin"/>
             <Ellipse x:Name="E2" Fill="White" Stroke="Black" HorizontalAlignment="Left" Canvas.Left="100" VerticalAlignment="Top" Canvas.Top="0"  Height="80" Width="80" StrokeThickness="1" MouseRightButtonDown="menu" MouseLeftButtonDown="moveWin" />

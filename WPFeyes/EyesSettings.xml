@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EyesSettings>
+  <Position>
+    <x>100</x>
+    <y>100</y>
+  </Position>
+  <Size>
+    <Height>90</Height>
+    <Width>90</Width>
+  </Size>
+  <RefreshRate>20</RefreshRate>
+  <Opacity>30</Opacity>
+  <ShowResizeGrip>true</ShowResizeGrip>
+  <ShowXYPosition>false</ShowXYPosition>
+  <DragMove>true</DragMove>
+</EyesSettings>

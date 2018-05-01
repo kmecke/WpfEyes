@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace WPFeyes
 {
@@ -15,8 +17,11 @@ namespace WPFeyes
         ContextMenu cm;
         Point newP, oldP;
         System.Timers.Timer myTimer;
-        const float frame = 10;
 
+        const float frame = 10;
+        private bool dragging = true;
+        private float opacity = 0.3f;
+        String col;
 
         static double cWidth, cHeight;
         static double cPosX, cPosY;
@@ -30,7 +35,7 @@ namespace WPFeyes
 
             InitializeComponent();
 
-            canvas1.Margin = new Thickness(frame);
+            initWithSettings();
 
             newP = mouseCom.getPooint();
             oldP = mouseCom.getPooint();
@@ -47,6 +52,12 @@ namespace WPFeyes
             {
                 myTimer.Start();
             }
+        }
+
+        private void initWithSettings()
+        {
+            canvas1.Margin = new Thickness(frame);
+            col = "LightGray";
         }
 
         #region Eventhanlders EyePos
@@ -131,7 +142,7 @@ namespace WPFeyes
         }
         #endregion
 
-        #region Resize
+        #region Resize and Move
         private void canvas1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             cWidth = canvas1.Width;
@@ -165,6 +176,13 @@ namespace WPFeyes
             canvas1.Height = e.NewSize.Height - 2 * frame;
             canvas1.Width = e.NewSize.Width - 2 * frame;
         }
+
+        private void dragMove(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = sender as MenuItem;
+            dragging = mi.IsChecked;
+        }
+
         #endregion
 
         #region Menu
@@ -186,21 +204,48 @@ namespace WPFeyes
 
         private void moveWin(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (dragging)
+            {
+                DragMove();
+            }
+        }
+
+        private void about(object sender, RoutedEventArgs e)
+        {
+            About aboutWindow = new About();
+            aboutWindow.ShowDialog();
+        }
+
+        private void browse(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+            String url = mi.Tag.ToString();
+            if (! String.IsNullOrEmpty(url))
+            {
+                Process proc = new Process();
+                proc.StartInfo.UseShellExecute = true;
+                proc.StartInfo.FileName = url;
+                proc.Start();
+            }
+        }
+
+        private void setColor(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+            col = mi.Tag.ToString();
+            SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
+            brush.Opacity = opacity;
+            mw.Background = brush;
         }
 
         private void changeOpacity(object sender, RoutedEventArgs e)
         {
             MenuItem mi = sender as MenuItem;
-            float opacity = Convert.ToSingle(mi.Tag);
-            // ContextMenu cm = mw.Resources["cm"] as 
-            // foreach( ItemControl i in cm.Items)
-
             if (mi != null)
             {
-                mw.Background.Opacity = opacity / 100;
+                opacity = Convert.ToSingle(mi.Tag) / 100;
+                mw.Background.Opacity = opacity;
             }
-
         }
 
         private void showGrip(object sender, RoutedEventArgs e)
