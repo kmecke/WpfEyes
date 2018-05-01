@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WPFeyes/obj
+/WPFeyes/bin/Debug
+/.vs/WPFeyes/v15
+/.vs/WpfEyes2/v15
