@@ -10,6 +10,7 @@
         <Label Content="WpfEyes" HorizontalAlignment="Left" Margin="15,15,0,0" VerticalAlignment="Top"/>
         <Label Content="Kai Mecke 2012 - today" HorizontalAlignment="Left" Margin="15,77,0,0" VerticalAlignment="Top"/>
         <Label Content="Version 0.1" HorizontalAlignment="Left" Margin="15,46,0,0" VerticalAlignment="Top"/>
+        <Button Content="Close" Height="33" Margin="65,0,65,10" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>

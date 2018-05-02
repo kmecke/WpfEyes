@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace WPFeyes
 {
@@ -22,6 +24,7 @@ namespace WPFeyes
         private bool dragging = true;
         private float opacity = 0.3f;
         String col;
+        Settings settings;
 
         static double cWidth, cHeight;
         static double cPosX, cPosY;
@@ -32,6 +35,22 @@ namespace WPFeyes
         public MainWindow()
         {
             mouseCom = new InterceptMouse();
+
+            string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+            path = System.IO.Path.Combine(System.IO.Directory.GetParent(path).FullName, "EyesSettings.xml");
+
+            if (System.IO.File.Exists(path))
+            {
+                var serializer = new XmlSerializer(typeof(Settings));
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
+                    settings = serializer.Deserialize(stream) as Settings;
+                }
+            }
+            else
+            {
+                settings = new Settings("default");
+            }
 
             InitializeComponent();
 
@@ -193,6 +212,15 @@ namespace WPFeyes
             cm.IsOpen = true;
         }
 
+        public void Save(string path)
+        {
+            var serializer = new XmlSerializer(typeof(Settings));
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                serializer.Serialize(stream, settings);
+            }
+        }
+
         private void changeHz(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
@@ -204,7 +232,7 @@ namespace WPFeyes
 
         private void moveWin(object sender, MouseButtonEventArgs e)
         {
-            if (dragging)
+            if ( dragging )
             {
                 DragMove();
             }
@@ -236,6 +264,19 @@ namespace WPFeyes
             SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
             brush.Opacity = opacity;
             mw.Background = brush;
+        }
+
+        private void alwaysOnTop(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = (MenuItem)sender;
+            if (! mi.IsChecked)
+            {
+                mw.Topmost = false;
+            }
+            else
+            {
+                mw.Topmost = true;
+            }
         }
 
         private void changeOpacity(object sender, RoutedEventArgs e)
