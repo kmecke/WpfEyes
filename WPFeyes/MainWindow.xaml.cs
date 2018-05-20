@@ -55,6 +55,8 @@ namespace WPFeyes
 
             InitializeComponent();
 
+            cm = this.FindResource("cm") as ContextMenu;
+
             applysettings(settings);
 
             newP = mouseCom.getPooint();
@@ -72,30 +74,34 @@ namespace WPFeyes
 
             canvas1.Margin = new Thickness(frame);
 
-            col = "LightGray";
+            SolidColorBrush brush = new SolidColorBrush(Brushes.LightGray.Color);
+            mw.Background = brush;
 
             opacity = settings.Opacity / 100;
             mw.Background.Opacity = opacity;
 
-            SolidColorBrush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(settings.Color);
-            brush.Opacity = settings.Opacity/100;
-            mw.Background = brush;
-
             showGrip(settings.ShowResizeGrip);
-
-            if (settings.MostTop) mw.Topmost = true;
-            else mw.Topmost = false;
-
+            checkIsChecked("resize", settings.ShowResizeGrip);
+            alwaysOnTop(settings.MostTop);
+            checkIsChecked("onTop", settings.MostTop);
             showXY(settings.ShowXYPosition);
+            checkIsChecked("showXY", settings.ShowXYPosition);
+            dragging = settings.DragMove;
+            checkIsChecked("move", settings.DragMove);
 
             applyTimer(settings);
             changeHz(settings.RefreshRate); 
-            dragging = settings.DragMove;
+        }
+
+        private void checkIsChecked(string menuItemStr, bool checkState)
+        {
+            MenuItem item = LogicalTreeHelper.FindLogicalNode(cm, menuItemStr) as MenuItem;
+            // MenuItem item = cm.FindResource(menuItemStr) as MenuItem;
+            item.IsChecked = checkState;
         }
 
         private void applyTimer(Settings settings)
         {
-
             if (myTimer == null)
             {
                 myTimer = new System.Timers.Timer();
@@ -246,7 +252,6 @@ namespace WPFeyes
         #region Menu
         private void menu(object sender, MouseButtonEventArgs e)
         {
-            cm = this.FindResource("cm") as ContextMenu;
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
         }
@@ -323,8 +328,20 @@ namespace WPFeyes
         {
             MenuItem mi = (MenuItem)sender;
             col = mi.Tag.ToString();
-            SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
-            brush.Opacity = opacity;
+            // SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
+            SolidColorBrush brush = null;
+            switch (col)
+            {
+                case "Gray": brush = new SolidColorBrush(Brushes.Orange.Color); break;
+                case "LightGray": brush = new SolidColorBrush(Brushes.LightGray.Color); break;
+                case "Beige": brush = new SolidColorBrush(Brushes.Beige.Color); break;
+                case "Red": brush = new SolidColorBrush(Brushes.Red.Color); break;
+                case "DarkBlue": brush = new SolidColorBrush(Brushes.DarkBlue.Color); break;
+                case "Black": brush = new SolidColorBrush(Brushes.Black.Color); break;
+                default:
+                    brush = new SolidColorBrush(Brushes.Orange.Color);
+                    break;
+            }
             mw.Background = brush;
             settings.Color = brush.Color.ToString();
         }
@@ -338,7 +355,7 @@ namespace WPFeyes
 
         private void alwaysOnTop(bool isChecked)
         {
-            if (isChecked)
+            if (!isChecked)
             {
                 mw.Topmost = false;
             }

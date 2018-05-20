@@ -2,17 +2,17 @@
 <EyesSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <RefreshRate>500</RefreshRate>
   <Opacity>1</Opacity>
-  <ShowResizeGrip>false</ShowResizeGrip>
+  <ShowResizeGrip>true</ShowResizeGrip>
   <ShowXYPosition>false</ShowXYPosition>
-  <DragMove>false</DragMove>
-  <MostTop>false</MostTop>
-  <Color>#FF808080</Color>
+  <DragMove>true</DragMove>
+  <MostTop>true</MostTop>
+  <Color>#FFFF0000</Color>
   <EyePosition>
-    <x>185</x>
-    <y>19</y>
+    <x>387</x>
+    <y>176</y>
   </EyePosition>
   <EyeSize>
-    <Height>323</Height>
-    <Width>299</Width>
+    <Height>407</Height>
+    <Width>581</Width>
   </EyeSize>
 </EyesSettings>

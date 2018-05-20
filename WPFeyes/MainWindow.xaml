@@ -14,9 +14,9 @@
     </Window.Background>
     <Window.Resources>
         <ContextMenu x:Key="cm">
-            <MenuItem Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip_cb"/>
-            <MenuItem Header="_Move with left click and Drag" IsCheckable="True" IsChecked="True" Click="dragMove"/>
-            <MenuItem Header="_Always on Top" IsCheckable="True" IsChecked="True" Click="alwaysOnTop_cb"/>
+            <MenuItem x:Name="resize" Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip_cb"/>
+            <MenuItem x:Name="move" Header="_Move with left click and Drag" IsCheckable="True" IsChecked="True" Click="dragMove"/>
+            <MenuItem x:Name="onTop" Header="_Always on Top" IsCheckable="True" IsChecked="True" Click="alwaysOnTop_cb"/>
             <MenuItem Header="_Refresh Rate">
                 <MenuItem Header="2Hz"   Tag="2"   Click="changeHz_cb"/>
                 <MenuItem Header="10Hz"  Tag="10"  Click="changeHz_cb"/>
@@ -31,9 +31,8 @@
                 <MenuItem Header="_30% transperent Gray"  Click="changeOpacity" Tag="30" />
                 <MenuItem Header="_60% transperent Gray"  Click="changeOpacity" Tag="60" />
                 <MenuItem Header="_Solid Background"       Click="changeOpacity" Tag="100"/>
-                <MenuItem Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
+                <MenuItem x:Name="showXY" Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
             </MenuItem>
-            <!-- 
             <MenuItem Header="Background Color">
                 <MenuItem Header="Gray" Click="setColor" Tag="Gray"/>
                 <MenuItem Header="LightGray" Click="setColor" Tag="LightGray"/>
@@ -42,13 +41,13 @@
                 <MenuItem Header="DarkBlue" Click="setColor" Tag="DarkBlue"/>
                 <MenuItem Header="Black" Click="setColor" Tag="Black"/>
             </MenuItem>
-            -->
             <MenuItem Header="_Help and About">
                 <MenuItem Header="_About WpfEyes" Click="about"/>
                 <MenuItem Header="_Browse to Documentation Wiki / User Guide" Click="browse" Tag="https://github.com/kmecke/WpfEyes"/>
                 <MenuItem Header="_Browse to project page on Github" Click="browse" Tag="https://github.com/kmecke/WpfEyes/wiki"/>
                 <MenuItem Header="_Browse to personal website mecke.net" Click="browse" Tag="http://www.mecke.net/"/>
             </MenuItem>
+            <Separator></Separator>
             <MenuItem Header="_Save" Click="save"/>
             <MenuItem Header="_Exit" Click="exit"/>
         </ContextMenu>
