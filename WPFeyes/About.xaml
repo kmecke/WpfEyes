@@ -5,12 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFeyes"
         mc:Ignorable="d"
-        Title="About" Height="193.385" Width="207.393" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="About" Height="335.385" Width="361.393" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Label Content="WpfEyes" HorizontalAlignment="Left" Margin="15,15,0,0" VerticalAlignment="Top"/>
-        <Label Content="Kai Mecke 2012 - today" HorizontalAlignment="Left" Margin="15,77,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="174*"/>
+            <ColumnDefinition Width="181*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="WpfEyes" HorizontalAlignment="Left" Margin="15,15,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="© 2012 - today Kai Mecke&#xD;&#xA;published under MIT License&#xD;&#xA;" HorizontalAlignment="Left" Margin="15,77,0,0" VerticalAlignment="Top" Height="48" Width="330" Grid.ColumnSpan="2"/>
         <Label Content="Version 0.1" HorizontalAlignment="Left" Margin="15,46,0,0" VerticalAlignment="Top"/>
-        <Button Content="Close" Height="33" Margin="65,0,65,10" VerticalAlignment="Bottom"/>
+        <Button Content="Close" Height="33" Margin="65,0,65,10" VerticalAlignment="Bottom" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Height="112" Margin="15,125,0,0" TextWrapping="Wrap" Text="Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#xD;&#xA;&#xD;&#xA;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#xD;&#xA;&#xD;&#xA;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." VerticalAlignment="Top" Width="330" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

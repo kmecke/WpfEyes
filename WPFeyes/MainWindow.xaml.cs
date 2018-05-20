@@ -19,6 +19,7 @@ namespace WPFeyes
         ContextMenu cm;
         Point newP, oldP;
         System.Timers.Timer myTimer;
+        string path = "exe path n/a";
 
         const float frame = 10;
         private bool dragging = true;
@@ -36,7 +37,7 @@ namespace WPFeyes
         {
             mouseCom = new InterceptMouse();
 
-            string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+            path = System.Reflection.Assembly.GetEntryAssembly().Location;
             path = System.IO.Path.Combine(System.IO.Directory.GetParent(path).FullName, "EyesSettings.xml");
 
             if (System.IO.File.Exists(path))
@@ -54,29 +55,61 @@ namespace WPFeyes
 
             InitializeComponent();
 
-            initWithSettings();
+            applysettings(settings);
 
             newP = mouseCom.getPooint();
             oldP = mouseCom.getPooint();
+
+        }
+
+        private void applysettings(Settings settings)
+        {
+
+            this.Width = settings.eyeSize.Width;
+            this.Height = settings.eyeSize.Height;
+            this.Left = settings.eyePos.x;
+            this.Top = settings.eyePos.y;
+
+            canvas1.Margin = new Thickness(frame);
+
+            col = "LightGray";
+
+            opacity = settings.Opacity / 100;
+            mw.Background.Opacity = opacity;
+
+            SolidColorBrush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(settings.Color);
+            brush.Opacity = settings.Opacity/100;
+            mw.Background = brush;
+
+            showGrip(settings.ShowResizeGrip);
+
+            if (settings.MostTop) mw.Topmost = true;
+            else mw.Topmost = false;
+
+            showXY(settings.ShowXYPosition);
+
+            applyTimer(settings);
+            changeHz(settings.RefreshRate); 
+            dragging = settings.DragMove;
+        }
+
+        private void applyTimer(Settings settings)
+        {
 
             if (myTimer == null)
             {
                 myTimer = new System.Timers.Timer();
                 myTimer.Elapsed += new ElapsedEventHandler(this.moveMouse);
-                myTimer.Interval = 50;
+                myTimer.Interval = 1000 / settings.RefreshRate;
                 myTimer.Enabled = true;
                 myTimer.Start();
             }
             else
             {
+                myTimer.Stop();
+                myTimer.Interval = 1000 / settings.RefreshRate;
                 myTimer.Start();
             }
-        }
-
-        private void initWithSettings()
-        {
-            canvas1.Margin = new Thickness(frame);
-            col = "LightGray";
         }
 
         #region Eventhanlders EyePos
@@ -194,12 +227,18 @@ namespace WPFeyes
         {
             canvas1.Height = e.NewSize.Height - 2 * frame;
             canvas1.Width = e.NewSize.Width - 2 * frame;
+            settings.eyeSize.Width = mw.Width;
+            settings.eyeSize.Height = mw.Height;
         }
 
-        private void dragMove(object sender, RoutedEventArgs e)
+        private void moveWin(object sender, MouseButtonEventArgs e)
         {
-            MenuItem mi = sender as MenuItem;
-            dragging = mi.IsChecked;
+            if (dragging && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+                settings.eyePos.x = mw.Left;
+                settings.eyePos.y = mw.Top;
+            }
         }
 
         #endregion
@@ -212,30 +251,53 @@ namespace WPFeyes
             cm.IsOpen = true;
         }
 
-        public void Save(string path)
+        public void save(object sender, RoutedEventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(Settings));
-            using (var stream = new FileStream(path, FileMode.Create))
+            try
             {
-                serializer.Serialize(stream, settings);
+                var serializer = new XmlSerializer(typeof(Settings));
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    serializer.Serialize(stream, settings);
+                }
+
+                MessageBox.Show("Sucessfully saved your current settings here" + Environment.NewLine +
+                    path,
+                    "Saving Settings",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong during saving process" + Environment.NewLine +
+                    "Writing a xml file to the following location failed: " + Environment.NewLine +
+                    path + Environment.NewLine +
+                    ex.Message,
+                    "Saving Settings",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        private void changeHz(object sender, RoutedEventArgs e)
+        private void changeHz_cb(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
-            float hz = 1000 / Convert.ToSingle(mi.Tag) ;
+            float hz = 1000 / Convert.ToSingle(mi.Tag);
+            changeHz(hz);
+            settings.RefreshRate = hz;
+        }
+
+        private void changeHz(float hz)
+        {
             myTimer.Stop();
             myTimer.Interval = hz;
+            settings.RefreshRate = hz;
             myTimer.Start();
         }
 
-        private void moveWin(object sender, MouseButtonEventArgs e)
+        private void dragMove(object sender, RoutedEventArgs e)
         {
-            if ( dragging )
-            {
-                DragMove();
-            }
+            MenuItem mi = sender as MenuItem;
+            dragging = mi.IsChecked;
+            settings.DragMove = mi.IsChecked;
         }
 
         private void about(object sender, RoutedEventArgs e)
@@ -264,12 +326,19 @@ namespace WPFeyes
             SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
             brush.Opacity = opacity;
             mw.Background = brush;
+            settings.Color = brush.Color.ToString();
         }
 
-        private void alwaysOnTop(object sender, RoutedEventArgs e)
+        private void alwaysOnTop_cb(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
-            if (! mi.IsChecked)
+            alwaysOnTop(mi.IsChecked);
+            settings.MostTop = mi.IsChecked;
+        }
+
+        private void alwaysOnTop(bool isChecked)
+        {
+            if (isChecked)
             {
                 mw.Topmost = false;
             }
@@ -286,13 +355,20 @@ namespace WPFeyes
             {
                 opacity = Convert.ToSingle(mi.Tag) / 100;
                 mw.Background.Opacity = opacity;
+                settings.Opacity = opacity;
             }
         }
 
-        private void showGrip(object sender, RoutedEventArgs e)
+        private void showGrip_cb(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
-            if (! (mi.IsChecked))
+            showGrip(mi.IsChecked);
+            settings.ShowResizeGrip = mi.IsChecked;
+        }
+
+        private void showGrip(bool isChecked)
+        {
+            if (!(isChecked))
             {
                 mw.ResizeMode = ResizeMode.CanResize;
             }
@@ -302,10 +378,16 @@ namespace WPFeyes
             }
         }
 
-        private void showXY(object sender, RoutedEventArgs e)
+        private void showXY_cb(object sender, RoutedEventArgs e)
         {
             MenuItem mi = (MenuItem)sender;
-            if(mi.IsChecked)
+            showXY(mi.IsChecked);
+            settings.ShowXYPosition = mi.IsChecked;
+        }
+
+        private void showXY(bool isChecked)
+        {
+            if (isChecked)
             {
                 this.posLabel.Visibility = Visibility.Visible;
             }

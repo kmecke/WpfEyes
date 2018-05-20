@@ -1,18 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<EyesSettings>
+<?xml version="1.0"?>
+<EyesSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RefreshRate>500</RefreshRate>
+  <Opacity>1</Opacity>
+  <ShowResizeGrip>false</ShowResizeGrip>
+  <ShowXYPosition>false</ShowXYPosition>
+  <DragMove>false</DragMove>
+  <MostTop>false</MostTop>
+  <Color>#FF808080</Color>
   <EyePosition>
-    <x>100</x>
-    <y>100</y>
+    <x>185</x>
+    <y>19</y>
   </EyePosition>
   <EyeSize>
-    <Height>90</Height>
-    <Width>90</Width>
+    <Height>323</Height>
+    <Width>299</Width>
   </EyeSize>
-  <RefreshRate>20</RefreshRate>
-  <Opacity>30</Opacity>
-  <Color>#FF808080</Color>
-  <ShowResizeGrip>true</ShowResizeGrip>
-  <ShowXYPosition>false</ShowXYPosition>
-  <DragMove>true</DragMove>
-  <MostTop>true</MostTop>
 </EyesSettings>

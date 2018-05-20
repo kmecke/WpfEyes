@@ -14,16 +14,16 @@
     </Window.Background>
     <Window.Resources>
         <ContextMenu x:Key="cm">
-            <MenuItem Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip"/>
+            <MenuItem Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip_cb"/>
             <MenuItem Header="_Move with left click and Drag" IsCheckable="True" IsChecked="True" Click="dragMove"/>
-            <MenuItem Header="_Always on Top" IsCheckable="True" IsChecked="True" Click="alwaysOnTop"/>
+            <MenuItem Header="_Always on Top" IsCheckable="True" IsChecked="True" Click="alwaysOnTop_cb"/>
             <MenuItem Header="_Refresh Rate">
-                <MenuItem Header="2Hz"   Tag="2"   Click="changeHz"/>
-                <MenuItem Header="10Hz"  Tag="10"  Click="changeHz"/>
-                <MenuItem Header="20Hz"  Tag="20"  Click="changeHz"/>
-                <MenuItem Header="40Hz"  Tag="40"  Click="changeHz"/>
-                <MenuItem Header="100Hz" Tag="100" Click="changeHz"/>
-                <MenuItem Header="200Hz" Tag="200" Click="changeHz"/>
+                <MenuItem Header="2Hz"   Tag="2"   Click="changeHz_cb"/>
+                <MenuItem Header="10Hz"  Tag="10"  Click="changeHz_cb"/>
+                <MenuItem Header="20Hz"  Tag="20"  Click="changeHz_cb"/>
+                <MenuItem Header="40Hz"  Tag="40"  Click="changeHz_cb"/>
+                <MenuItem Header="100Hz" Tag="100" Click="changeHz_cb"/>
+                <MenuItem Header="200Hz" Tag="200" Click="changeHz_cb"/>
             </MenuItem>
             <MenuItem Header="_Visibility" >
                 <MenuItem Header="_Tansperant Background" Click="changeOpacity" Tag="0"  />
@@ -31,7 +31,7 @@
                 <MenuItem Header="_30% transperent Gray"  Click="changeOpacity" Tag="30" />
                 <MenuItem Header="_60% transperent Gray"  Click="changeOpacity" Tag="60" />
                 <MenuItem Header="_Solid Background"       Click="changeOpacity" Tag="100"/>
-                <MenuItem Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY"/>
+                <MenuItem Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
             </MenuItem>
             <!-- 
             <MenuItem Header="Background Color">
@@ -49,6 +49,7 @@
                 <MenuItem Header="_Browse to project page on Github" Click="browse" Tag="https://github.com/kmecke/WpfEyes/wiki"/>
                 <MenuItem Header="_Browse to personal website mecke.net" Click="browse" Tag="http://www.mecke.net/"/>
             </MenuItem>
+            <MenuItem Header="_Save" Click="save"/>
             <MenuItem Header="_Exit" Click="exit"/>
         </ContextMenu>
     </Window.Resources>
