@@ -142,60 +142,6 @@ namespace WPFeyes
             Point P1v = calcEye(Mx, My, 2f, 2f);
             Point P2v = calcEye(Mx, My, 7f, 2f);
 
-            /*
-            // Eye 1
-            double WE1x = 2 * unitX; // Mittelpunkt Auge
-            double WE1y = 2 * unitY;
-            double OE1x = cPosX + WE1x;
-            double OE1y = cPosY  + WE1y;
-
-            double E1Mx = Mx - OE1x;
-            double E1My = My - OE1y;
-
-            double lenghtE1M = Math.Sqrt(Math.Pow(E1Mx, 2) + Math.Pow(E1My, 2));
-
-            double E1Px = E1Mx / lenghtE1M * unitX;
-            double E1Py = E1My / lenghtE1M * unitY;
-            if (Math.Abs(E1Px) > Math.Abs(E1Mx) &&
-                Math.Abs(E1Py) > Math.Abs(E1My))
-            {
-                E1Px = E1Mx;
-                E1Py = E1My;
-            }
-
-            double WP1x = (E1Mx / lenghtE1M * unitX) + WE1x;
-            double WP1y = (E1My / lenghtE1M * unitY) + WE1y;
-
-            double canPos1x = WP1x - unitX / 2;
-            double canPos1y = WP1y - unitY / 2;
-
-            // Eye 2
-            double WE2x = 7 * unitX;
-            double WE2y = 2 * unitY;
-            double OE2x = cPosX  + WE2x;
-            double OE2y = cPosY + WE2y;
-
-            double E2Mx = Mx - OE2x;
-            double E2My = My - OE2y;
-
-            double lenghtE2M = Math.Sqrt(Math.Pow(E2Mx, 2) + Math.Pow(E2My, 2));
-
-            double E2Px = E2Mx / lenghtE2M * unitX;
-            double E2Py = E2My / lenghtE2M * unitY;
-            if (Math.Abs(E2Px) > Math.Abs(E2Mx) &&
-                Math.Abs(E2Py) > Math.Abs(E2My))
-            {
-                E2Px = E2Mx;
-                E2Py = E2My;
-            }
-
-            double WP2x = E2Px + WE2x;
-            double WP2y = E2Py + WE2y;
-
-            double canPos2x = WP2x - unitX / 2;
-            double canPos2y = WP2y - unitY / 2;
-            */
-
             Dispatcher.Invoke(() => {
                 Canvas.SetLeft(P1, P1v.X);
                 Canvas.SetTop(P1, P1v.Y);
@@ -206,18 +152,23 @@ namespace WPFeyes
 
         private Point calcEye(double Mx, double My, double Eposx, double Eposy)
         {
-            // Eye 1
-            double WEx = Eposx * unitX; // Mittelpunkt Auge
+            // Punkt E:     Mittelpunkt Auge
+            // Punkt M:     Mauscursor
+            // Punkt O:     Ursprung Origin von Bildschirm
+            // Punkt P:     Pupille
+
+            double WEx = Eposx * unitX; // Mittelpunkt Auge auf Canvas
             double WEy = Eposy * unitY;
-            double OEx = cPosX + WEx;
+
+            double OEx = cPosX + WEx; // Origin => Mittelpunkt Auge = Canvas Pos (cPos) + Mittelpunkt Auge (E)
             double OEy = cPosY + WEy;
 
-            double EMx = Mx - OEx;
+            double EMx = Mx - OEx; // Auge => MausCursor
             double EMy = My - OEy;
 
-            double lenghtE1M = Math.Sqrt(Math.Pow(EMx, 2) + Math.Pow(EMy, 2));
+            double lenghtE1M = Math.Sqrt(Math.Pow(EMx, 2) + Math.Pow(EMy, 2)); // Betrag von E => M 
 
-            double EPx = EMx / lenghtE1M * unitX;
+            double EPx = EMx / lenghtE1M * unitX; // E => P = Normierung und Skalierung 
             double EPy = EMy / lenghtE1M * unitY;
             if (Math.Abs(EPx) > Math.Abs(EMx) &&
                 Math.Abs(EPy) > Math.Abs(EMy))

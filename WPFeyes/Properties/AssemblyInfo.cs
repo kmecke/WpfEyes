@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MEI - Mecke Engineering Information")]
 [assembly: AssemblyProduct("WpfEyes")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - MIT License")]
+[assembly: AssemblyCopyright("Copyright ©  2012 - today Kai Mecke - MIT License")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyFileVersion("0.0.1.0")]
+[assembly: AssemblyVersion("0.0.2.0")]
+[assembly: AssemblyFileVersion("0.0.2.0")]
 [assembly: NeutralResourcesLanguage("")]
 
