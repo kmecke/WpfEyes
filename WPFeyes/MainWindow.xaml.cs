@@ -139,6 +139,10 @@ namespace WPFeyes
             double Mx = newP.X;
             double My = newP.Y;
 
+            Point P1v = calcEye(Mx, My, 2f, 2f);
+            Point P2v = calcEye(Mx, My, 7f, 2f);
+
+            /*
             // Eye 1
             double WE1x = 2 * unitX; // Mittelpunkt Auge
             double WE1y = 2 * unitY;
@@ -150,17 +154,17 @@ namespace WPFeyes
 
             double lenghtE1M = Math.Sqrt(Math.Pow(E1Mx, 2) + Math.Pow(E1My, 2));
 
-            double WP1x = (E1Mx / lenghtE1M * unitX) + WE1x;
-            if (Math.Abs(E1Mx) < unitX)
+            double E1Px = E1Mx / lenghtE1M * unitX;
+            double E1Py = E1My / lenghtE1M * unitY;
+            if (Math.Abs(E1Px) > Math.Abs(E1Mx) &&
+                Math.Abs(E1Py) > Math.Abs(E1My))
             {
-                WP1x = E1Mx + WE1x; // Mittelpunkt Pupille
+                E1Px = E1Mx;
+                E1Py = E1My;
             }
 
+            double WP1x = (E1Mx / lenghtE1M * unitX) + WE1x;
             double WP1y = (E1My / lenghtE1M * unitY) + WE1y;
-            if (Math.Abs(E1My) < unitY)
-            {
-                WP1y = E1My + WE1y; // Mittelpunkt Pupille
-            }
 
             double canPos1x = WP1x - unitX / 2;
             double canPos1y = WP1y - unitY / 2;
@@ -176,28 +180,61 @@ namespace WPFeyes
 
             double lenghtE2M = Math.Sqrt(Math.Pow(E2Mx, 2) + Math.Pow(E2My, 2));
 
-            double WP2x = (E2Mx / lenghtE2M * unitX) + WE2x;
-            if (Math.Abs( E2Mx ) < unitX)
+            double E2Px = E2Mx / lenghtE2M * unitX;
+            double E2Py = E2My / lenghtE2M * unitY;
+            if (Math.Abs(E2Px) > Math.Abs(E2Mx) &&
+                Math.Abs(E2Py) > Math.Abs(E2My))
             {
-                WP2x = E2Mx + WE2x; // Mittelpunkt Pupille
+                E2Px = E2Mx;
+                E2Py = E2My;
             }
 
-            double WP2y = (E2My / lenghtE2M * unitY) + WE2y;
-            if (Math.Abs( E2My ) < unitY)
-            {
-                WP2y = E2My + WE2y; // Mittelpunkt Pupille
-            }
+            double WP2x = E2Px + WE2x;
+            double WP2y = E2Py + WE2y;
 
             double canPos2x = WP2x - unitX / 2;
             double canPos2y = WP2y - unitY / 2;
+            */
 
             Dispatcher.Invoke(() => {
-                Canvas.SetLeft(P1, canPos1x);
-                Canvas.SetTop(P1, canPos1y);
-                Canvas.SetLeft(P2, canPos2x);
-                Canvas.SetTop(P2, canPos2y);
+                Canvas.SetLeft(P1, P1v.X);
+                Canvas.SetTop(P1, P1v.Y);
+                Canvas.SetLeft(P2, P2v.X);
+                Canvas.SetTop(P2, P2v.Y);
             });
         }
+
+        private Point calcEye(double Mx, double My, double Eposx, double Eposy)
+        {
+            // Eye 1
+            double WEx = Eposx * unitX; // Mittelpunkt Auge
+            double WEy = Eposy * unitY;
+            double OEx = cPosX + WEx;
+            double OEy = cPosY + WEy;
+
+            double EMx = Mx - OEx;
+            double EMy = My - OEy;
+
+            double lenghtE1M = Math.Sqrt(Math.Pow(EMx, 2) + Math.Pow(EMy, 2));
+
+            double EPx = EMx / lenghtE1M * unitX;
+            double EPy = EMy / lenghtE1M * unitY;
+            if (Math.Abs(EPx) > Math.Abs(EMx) &&
+                Math.Abs(EPy) > Math.Abs(EMy))
+            {
+                EPx = EMx;
+                EPy = EMy;
+            }
+
+            double WPx = EPx + WEx;
+            double WPy = EPy + WEy;
+
+            double canPosx = WPx - unitX / 2;
+            double canPosy = WPy - unitY / 2;
+
+            return new Point(canPosx, canPosy);
+        }
+
         #endregion
 
         #region Resize and Move

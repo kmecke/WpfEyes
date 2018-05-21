@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <EyesSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <RefreshRate>500</RefreshRate>
+  <RefreshRate>25</RefreshRate>
   <Opacity>1</Opacity>
   <ShowResizeGrip>true</ShowResizeGrip>
   <ShowXYPosition>false</ShowXYPosition>
@@ -12,7 +12,7 @@
     <y>176</y>
   </EyePosition>
   <EyeSize>
-    <Height>407</Height>
-    <Width>581</Width>
+    <Height>444</Height>
+    <Width>378</Width>
   </EyeSize>
 </EyesSettings>
