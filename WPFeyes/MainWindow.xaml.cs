@@ -166,15 +166,18 @@ namespace WPFeyes
             double EMx = Mx - OEx; // Auge => MausCursor
             double EMy = My - OEy;
 
-            double lenghtE1M = Math.Sqrt(Math.Pow(EMx, 2) + Math.Pow(EMy, 2)); // Betrag von E => M 
+            double lenghtEM = Math.Sqrt(Math.Pow(EMx, 2) + Math.Pow(EMy, 2)); // Betrag von E => M 
 
-            double EPx = EMx / lenghtE1M * unitX; // E => P = Normierung und Skalierung 
-            double EPy = EMy / lenghtE1M * unitY;
-            if (Math.Abs(EPx) > Math.Abs(EMx) &&
-                Math.Abs(EPy) > Math.Abs(EMy))
+            double EPx = EMx / lenghtEM * unitX; // E => P = Normierung und Skalierung 
+            double EPy = EMy / lenghtEM * unitY;
+
+            if (Math.Abs(EMx) < unitX)
             {
-                EPx = EMx;
-                EPy = EMy;
+                if ( Math.Abs(EMy) < Math.Abs(unitY / unitX * Math.Sqrt(Math.Pow(unitX, 2) - EMx )) )
+                {
+                    EPx = EMx;
+                    EPy = EMy;
+                }
             }
 
             double WPx = EPx + WEx;
@@ -188,7 +191,7 @@ namespace WPFeyes
 
         #endregion
 
-        #region Resize and Move
+        #region Resize and Move Window
         private void canvas1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             cWidth = canvas1.Width;
@@ -230,8 +233,12 @@ namespace WPFeyes
             if (dragging && e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
+                cPosX = this.Left + frame;
+                cPosY = this.Top + frame;
                 settings.eyePos.x = mw.Left;
                 settings.eyePos.y = mw.Top;
+
+                calcPos();
             }
         }
 
@@ -320,14 +327,14 @@ namespace WPFeyes
             SolidColorBrush brush = null;
             switch (col)
             {
-                case "Gray": brush = new SolidColorBrush(Brushes.Orange.Color); break;
+                case "Gray": brush = new SolidColorBrush(Brushes.Gray.Color); break;
                 case "LightGray": brush = new SolidColorBrush(Brushes.LightGray.Color); break;
                 case "Beige": brush = new SolidColorBrush(Brushes.Beige.Color); break;
                 case "Red": brush = new SolidColorBrush(Brushes.Red.Color); break;
                 case "DarkBlue": brush = new SolidColorBrush(Brushes.DarkBlue.Color); break;
                 case "Black": brush = new SolidColorBrush(Brushes.Black.Color); break;
                 default:
-                    brush = new SolidColorBrush(Brushes.Orange.Color);
+                    brush = new SolidColorBrush(Brushes.Gray.Color);
                     break;
             }
             mw.Background = brush;

@@ -26,10 +26,10 @@
                 <MenuItem Header="200Hz" Tag="200" Click="changeHz_cb"/>
             </MenuItem>
             <MenuItem Header="_Visibility" >
-                <MenuItem Header="_Tansperant Background" Click="changeOpacity" Tag="0"  />
-                <MenuItem Header="_10% transperent Gray"  Click="changeOpacity" Tag="10" />
-                <MenuItem Header="_30% transperent Gray"  Click="changeOpacity" Tag="30" />
-                <MenuItem Header="_60% transperent Gray"  Click="changeOpacity" Tag="60" />
+                <MenuItem Header="_Transparent Background" Click="changeOpacity" Tag="0"  />
+                <MenuItem Header="_10% Transperency"  Click="changeOpacity" Tag="10" />
+                <MenuItem Header="_30% Transperency"  Click="changeOpacity" Tag="30" />
+                <MenuItem Header="_60% Transperency"  Click="changeOpacity" Tag="60" />
                 <MenuItem Header="_Solid Background"       Click="changeOpacity" Tag="100"/>
                 <MenuItem x:Name="showXY" Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
             </MenuItem>
@@ -43,8 +43,8 @@
             </MenuItem>
             <MenuItem Header="_Help and About">
                 <MenuItem Header="_About WpfEyes" Click="about"/>
-                <MenuItem Header="_Browse to Documentation Wiki / User Guide" Click="browse" Tag="https://github.com/kmecke/WpfEyes"/>
-                <MenuItem Header="_Browse to project page on Github" Click="browse" Tag="https://github.com/kmecke/WpfEyes/wiki"/>
+                <MenuItem Header="_Browse to project page on Github" Click="browse" Tag="https://github.com/kmecke/WpfEyes/"/>
+                <MenuItem Header="_Browse to Documentation Wiki / User Guide" Click="browse" Tag="https://github.com/kmecke/WpfEyes/wiki"/>
                 <MenuItem Header="_Browse to personal website mecke.net" Click="browse" Tag="http://www.mecke.net/"/>
             </MenuItem>
             <Separator></Separator>
