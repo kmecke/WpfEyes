@@ -8,7 +8,7 @@
         Title="MainWindow" Height="100" Width="200"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip" Topmost="True" MinWidth="45" MinHeight="30">
+        ResizeMode="CanResizeWithGrip" Topmost="True" MinWidth="45" MinHeight="30" MouseDown="mw_MouseDown" MouseUp="mw_MouseUp">
     <Window.Background>
         <SolidColorBrush Opacity="0.3" Color="Gray"/>
     </Window.Background>

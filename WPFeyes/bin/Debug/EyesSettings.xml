@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <EyesSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <RefreshRate>25</RefreshRate>
-  <Opacity>1</Opacity>
+  <Opacity>0.3</Opacity>
   <ShowResizeGrip>true</ShowResizeGrip>
   <ShowXYPosition>false</ShowXYPosition>
   <DragMove>true</DragMove>
@@ -12,7 +12,7 @@
     <y>176</y>
   </EyePosition>
   <EyeSize>
-    <Height>444</Height>
-    <Width>378</Width>
+    <Height>465</Height>
+    <Width>425</Width>
   </EyeSize>
 </EyesSettings>

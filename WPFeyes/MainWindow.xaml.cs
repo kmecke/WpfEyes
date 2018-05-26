@@ -74,10 +74,12 @@ namespace WPFeyes
 
             canvas1.Margin = new Thickness(frame);
 
-            SolidColorBrush brush = new SolidColorBrush(Brushes.LightGray.Color);
+            BrushConverter conv = new BrushConverter();
+            SolidColorBrush brush = conv.ConvertFromString("#0000FF") as SolidColorBrush;
+            // SolidColorBrush brush = new SolidColorBrush(settings.Color);
             mw.Background = brush;
 
-            opacity = settings.Opacity / 100;
+            opacity = settings.Opacity;
             mw.Background.Opacity = opacity;
 
             showGrip(settings.ShowResizeGrip);
@@ -376,6 +378,28 @@ namespace WPFeyes
             MenuItem mi = (MenuItem)sender;
             showGrip(mi.IsChecked);
             settings.ShowResizeGrip = mi.IsChecked;
+        }
+
+        private void mw_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // this prevents win7 aerosnap
+            if (this.ResizeMode != System.Windows.ResizeMode.NoResize)
+            {
+                this.ResizeMode = System.Windows.ResizeMode.NoResize;
+                this.UpdateLayout();
+            }
+
+            // DragMove();
+        }
+
+        private void mw_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.ResizeMode == System.Windows.ResizeMode.NoResize)
+            {
+                // restore resize grips
+                this.ResizeMode = System.Windows.ResizeMode.CanResizeWithGrip;
+                this.UpdateLayout();
+            }
         }
 
         private void showGrip(bool isChecked)

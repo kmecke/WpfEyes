@@ -1,6 +1,7 @@
 # WpfEyes
 
-You are looking for Xeyes, X-Eyes, WinEyes? Well those eyes that are looking at your mouse cursor?
+You are looking for Xeyes, X-Eyes, WinEyes? Well those eyes that are looking at your mouse cursor? 
+Here you go!
 
 Please provide feedback how it works for you and what improvements you see.
 
