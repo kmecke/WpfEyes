@@ -9,7 +9,7 @@
     <Width>90</Width>
   </EyeSize>
   <RefreshRate>20</RefreshRate>
-  <Opacity>30</Opacity>
+  <Opacity>0.3</Opacity>
   <Color>#FF808080</Color>
   <ShowResizeGrip>true</ShowResizeGrip>
   <ShowXYPosition>false</ShowXYPosition>

@@ -13,7 +13,7 @@ namespace WPFeyes
         public Settings(string v)
         {
             RefreshRate = 20;
-            Opacity = 30;
+            Opacity = 0.3f;
             ShowResizeGrip = true;
             ShowXYPosition = false;
             DragMove = true;

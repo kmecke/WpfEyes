@@ -80,6 +80,7 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EyeNotifyIcon.cs" />
     <Compile Include="InterceptMouse.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="winHook.cs" />

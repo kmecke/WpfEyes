@@ -8,7 +8,7 @@
         Title="MainWindow" Height="100" Width="200"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip" Topmost="True" MinWidth="45" MinHeight="30" MouseDown="mw_MouseDown" MouseUp="mw_MouseUp">
+        ResizeMode="CanResizeWithGrip" Topmost="True" MinWidth="45" MinHeight="30">
     <Window.Background>
         <SolidColorBrush Opacity="0.3" Color="Gray"/>
     </Window.Background>
@@ -17,6 +17,7 @@
             <MenuItem x:Name="resize" Header="_Show Resize Grip" IsCheckable="True" IsChecked="True" Click="showGrip_cb"/>
             <MenuItem x:Name="move" Header="_Move with left click and Drag" IsCheckable="True" IsChecked="True" Click="dragMove"/>
             <MenuItem x:Name="onTop" Header="_Always on Top" IsCheckable="True" IsChecked="True" Click="alwaysOnTop_cb"/>
+            <MenuItem x:Name="showXY" Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
             <MenuItem Header="_Refresh Rate">
                 <MenuItem Header="2Hz"   Tag="2"   Click="changeHz_cb"/>
                 <MenuItem Header="10Hz"  Tag="10"  Click="changeHz_cb"/>
@@ -27,13 +28,12 @@
             </MenuItem>
             <MenuItem Header="_Visibility" >
                 <MenuItem Header="_Transparent Background" Click="changeOpacity" Tag="0"  />
-                <MenuItem Header="_10% Transperency"  Click="changeOpacity" Tag="10" />
-                <MenuItem Header="_30% Transperency"  Click="changeOpacity" Tag="30" />
-                <MenuItem Header="_60% Transperency"  Click="changeOpacity" Tag="60" />
-                <MenuItem Header="_Solid Background"       Click="changeOpacity" Tag="100"/>
-                <MenuItem x:Name="showXY" Header="_Show xy Position" IsCheckable="True" IsChecked="False" Click="showXY_cb"/>
+                <MenuItem Header="_10% Transperency" Click="changeOpacity" Tag="10" />
+                <MenuItem Header="_30% Transperency" Click="changeOpacity" Tag="30" />
+                <MenuItem Header="_60% Transperency" Click="changeOpacity" Tag="60" />
+                <MenuItem Header="_Solid Background" Click="changeOpacity" Tag="100"/>
             </MenuItem>
-            <MenuItem Header="Background Color">
+            <MenuItem Header="_Background Color">
                 <MenuItem Header="Gray" Click="setColor" Tag="Gray"/>
                 <MenuItem Header="LightGray" Click="setColor" Tag="LightGray"/>
                 <MenuItem Header="Beige" Click="setColor" Tag="Beige"/>
@@ -49,7 +49,8 @@
             </MenuItem>
             <Separator></Separator>
             <MenuItem Header="_Save" Click="save"/>
-            <MenuItem Header="_Exit" Click="exit"/>
+            <MenuItem Header="_Restore Start Settings" Click="restoreSettings"/>
+            <MenuItem Header="_Exit" Click="exit_cb"/>
         </ContextMenu>
     </Window.Resources>
     <DockPanel SizeChanged="DockPanel_SizeChanged" Margin="0" MouseRightButtonDown="menu" >

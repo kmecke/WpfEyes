@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <EyesSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <RefreshRate>25</RefreshRate>
-  <Opacity>0.3</Opacity>
+  <Opacity>0</Opacity>
   <ShowResizeGrip>true</ShowResizeGrip>
   <ShowXYPosition>false</ShowXYPosition>
   <DragMove>true</DragMove>
   <MostTop>true</MostTop>
-  <Color>#FFFF0000</Color>
+  <Color>#FFD3D3D3</Color>
   <EyePosition>
-    <x>387</x>
-    <y>176</y>
+    <x>560</x>
+    <y>98</y>
   </EyePosition>
   <EyeSize>
     <Height>465</Height>

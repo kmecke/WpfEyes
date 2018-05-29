@@ -26,6 +26,8 @@ namespace WPFeyes
         private float opacity = 0.3f;
         String col;
         Settings settings;
+        Settings loadedSettings;
+        EyeNotifyIcon eyeNotifyIcon;
 
         static double cWidth, cHeight;
         static double cPosX, cPosY;
@@ -45,6 +47,10 @@ namespace WPFeyes
                 var serializer = new XmlSerializer(typeof(Settings));
                 using (var stream = new FileStream(path, FileMode.Open))
                 {
+                    loadedSettings = serializer.Deserialize(stream) as Settings;
+                }
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
                     settings = serializer.Deserialize(stream) as Settings;
                 }
             }
@@ -54,6 +60,9 @@ namespace WPFeyes
             }
 
             InitializeComponent();
+            this.ShowInTaskbar = false;
+            if (eyeNotifyIcon == null)
+                eyeNotifyIcon = new EyeNotifyIcon(this);
 
             cm = this.FindResource("cm") as ContextMenu;
 
@@ -64,35 +73,90 @@ namespace WPFeyes
 
         }
 
-        private void applysettings(Settings settings)
+        internal void restoreSettings()
+        {
+            applysettings(loadedSettings);
+        }
+
+        private void restoreSettings(object sender, RoutedEventArgs e)
+        {
+            applysettings(loadedSettings);
+        }
+
+        internal void applysettings(Settings appySettings)
         {
 
-            this.Width = settings.eyeSize.Width;
-            this.Height = settings.eyeSize.Height;
-            this.Left = settings.eyePos.x;
-            this.Top = settings.eyePos.y;
+            this.Width = appySettings.eyeSize.Width;
+            this.Height = appySettings.eyeSize.Height;
+            this.Left = appySettings.eyePos.x;
+            this.Top = appySettings.eyePos.y;
 
             canvas1.Margin = new Thickness(frame);
 
             BrushConverter conv = new BrushConverter();
-            SolidColorBrush brush = conv.ConvertFromString("#0000FF") as SolidColorBrush;
+            SolidColorBrush brush = conv.ConvertFromString(appySettings.Color ) as SolidColorBrush;
             // SolidColorBrush brush = new SolidColorBrush(settings.Color);
             mw.Background = brush;
 
-            opacity = settings.Opacity;
+            opacity = appySettings.Opacity;
             mw.Background.Opacity = opacity;
 
-            showGrip(settings.ShowResizeGrip);
-            checkIsChecked("resize", settings.ShowResizeGrip);
-            alwaysOnTop(settings.MostTop);
-            checkIsChecked("onTop", settings.MostTop);
-            showXY(settings.ShowXYPosition);
-            checkIsChecked("showXY", settings.ShowXYPosition);
-            dragging = settings.DragMove;
-            checkIsChecked("move", settings.DragMove);
+            showGrip(appySettings.ShowResizeGrip);
+            checkIsChecked("resize", appySettings.ShowResizeGrip);
+            alwaysOnTop(appySettings.MostTop);
+            checkIsChecked("onTop", appySettings.MostTop);
+            showXY(appySettings.ShowXYPosition);
+            checkIsChecked("showXY", appySettings.ShowXYPosition);
+            dragging = appySettings.DragMove;
+            checkIsChecked("move", appySettings.DragMove);
 
-            applyTimer(settings);
-            changeHz(settings.RefreshRate); 
+            applyTimer(appySettings);
+            changeHz(appySettings.RefreshRate);
+
+            // mark menu settings
+            foreach (System.Windows.Controls.Control it in cm.Items)
+            {
+                MenuItem itme = it as MenuItem;
+                if (itme != null)
+                {
+
+                    switch (itme.Header)
+                    {
+                        case "_Refresh Rate":
+                            foreach (MenuItem it2 in itme.Items)
+                            {
+                                float hz = 1000 / Convert.ToSingle(it2.Tag);
+                                if (hz == appySettings.RefreshRate)
+                                {
+                                    it2.IsChecked = true;
+                                }
+                            }
+                            break;
+                        case "_Visibility":
+                            foreach (MenuItem it2 in itme.Items)
+                            {
+                                if ((Convert.ToSingle(it2.Tag) / 100).Equals(appySettings.Opacity))
+                                {
+                                    it2.IsChecked = true;
+                                }
+                            }
+                            break;
+                        case "_Background Color":
+                            foreach (MenuItem it2 in itme.Items)
+                            {
+                                if (getBrush(it2.Tag.ToString()).Color.ToString().Equals(settings.Color))
+                                {
+                                    it2.IsChecked = true;
+                                }
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
         }
 
         private void checkIsChecked(string menuItemStr, bool checkState)
@@ -128,11 +192,15 @@ namespace WPFeyes
             {
                 // MouseEventArgs ea = new MouseEventArgs();
                 // newPos_Handler.Invoke(newP, ea);
-                Dispatcher.Invoke(() =>
+                try
                 {
-                    posLabel.Content = newP.X + " " + newP.Y;
-                });
-                calcPos();
+                    Dispatcher.Invoke(() =>
+                    {
+                        posLabel.Content = newP.X + " " + newP.Y;
+                    });
+                    calcPos();
+                }
+                catch { }
             }
         }
 
@@ -253,6 +321,16 @@ namespace WPFeyes
             cm.IsOpen = true;
         }
 
+        private static void checkAciveItem(MenuItem mi)
+        {
+            MenuItem pmi = mi.Parent as MenuItem;
+            foreach (MenuItem it in pmi.Items)
+            {
+                it.IsChecked = false;
+            }
+            mi.IsChecked = true;
+        }
+
         public void save(object sender, RoutedEventArgs e)
         {
             try
@@ -285,6 +363,8 @@ namespace WPFeyes
             float hz = 1000 / Convert.ToSingle(mi.Tag);
             changeHz(hz);
             settings.RefreshRate = hz;
+
+            checkAciveItem(mi);
         }
 
         private void changeHz(float hz)
@@ -327,6 +407,20 @@ namespace WPFeyes
             col = mi.Tag.ToString();
             // SolidColorBrush brush = (SolidColorBrush) new BrushConverter().ConvertFromString(col);
             SolidColorBrush brush = null;
+            brush = getBrush(col);
+            mw.Background = brush;
+            settings.Color = brush.Color.ToString();
+
+            checkAciveItem(mi);
+
+            // Set Visibility to 100%
+            MenuItem miviz = cm.Items[5] as MenuItem;
+            checkAciveItem(miviz.Items[4] as MenuItem);
+        }
+
+        private SolidColorBrush getBrush(String col)
+        {
+            SolidColorBrush brush;
             switch (col)
             {
                 case "Gray": brush = new SolidColorBrush(Brushes.Gray.Color); break;
@@ -339,8 +433,8 @@ namespace WPFeyes
                     brush = new SolidColorBrush(Brushes.Gray.Color);
                     break;
             }
-            mw.Background = brush;
-            settings.Color = brush.Color.ToString();
+
+            return brush;
         }
 
         private void alwaysOnTop_cb(object sender, RoutedEventArgs e)
@@ -371,6 +465,9 @@ namespace WPFeyes
                 mw.Background.Opacity = opacity;
                 settings.Opacity = opacity;
             }
+
+            checkAciveItem(mi);
+
         }
 
         private void showGrip_cb(object sender, RoutedEventArgs e)
@@ -379,7 +476,8 @@ namespace WPFeyes
             showGrip(mi.IsChecked);
             settings.ShowResizeGrip = mi.IsChecked;
         }
-
+        
+        /*
         private void mw_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // this prevents win7 aerosnap
@@ -401,6 +499,7 @@ namespace WPFeyes
                 this.UpdateLayout();
             }
         }
+        */
 
         private void showGrip(bool isChecked)
         {
@@ -435,12 +534,18 @@ namespace WPFeyes
 
         #endregion
 
-        private void exit(object sender, RoutedEventArgs e)
+        private void exit_cb(object sender, RoutedEventArgs e)
+        {
+            exit();
+        }
+
+        internal void exit()
         {
             mouseCom.exitCall();
             System.Windows.Application.Current.Shutdown();
         }
 
-    }
+
+}
 
 }
