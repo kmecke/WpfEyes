@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WPFeyes.Properties;
 
 namespace WPFeyes
 {
@@ -17,7 +18,7 @@ namespace WPFeyes
         public EyeNotifyIcon(MainWindow mw)
         {
             this.mw = mw;
-            nIcon.Icon = new Icon(@"../../WpfEyesIcon\Rastergrafik.ico");
+            nIcon.Icon = Resources.Rastergrafik;
             // nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
             nIcon.ContextMenuStrip = ContextMenusCreate();
             nIcon.Visible = true;

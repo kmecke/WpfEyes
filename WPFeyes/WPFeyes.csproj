@@ -146,5 +146,11 @@
   <ItemGroup>
     <Resource Include="Rastergrafik.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EyeIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WpfEyesIcon\Rastergrafik.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
