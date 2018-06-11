@@ -194,10 +194,10 @@ namespace WPFeyes
                 // newPos_Handler.Invoke(newP, ea);
                 try
                 {
-                    Dispatcher.Invoke(() =>
+                    Dispatcher.Invoke( (Action) (() =>
                     {
                         posLabel.Content = newP.X + " " + newP.Y;
-                    });
+                    }));
                     calcPos();
                 }
                 catch { }
@@ -212,12 +212,12 @@ namespace WPFeyes
             Point P1v = calcEye(Mx, My, 2f, 2f);
             Point P2v = calcEye(Mx, My, 7f, 2f);
 
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke((Action)(() => {
                 Canvas.SetLeft(P1, P1v.X);
                 Canvas.SetTop(P1, P1v.Y);
                 Canvas.SetLeft(P2, P2v.X);
                 Canvas.SetTop(P2, P2v.Y);
-            });
+            }));
         }
 
         private Point calcEye(double Mx, double My, double Eposx, double Eposy)
