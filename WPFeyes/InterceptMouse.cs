@@ -2,10 +2,9 @@
 using System.Runtime.InteropServices;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows;
 
 namespace WPFeyes
 {
@@ -45,8 +44,7 @@ namespace WPFeyes
 
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static IntPtr HookCallback(
-        int nCode, IntPtr wParam, IntPtr lParam)
+        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 &&
                 MouseMessages.WM_MOUSEMOVE == (MouseMessages)wParam)
@@ -55,7 +53,7 @@ namespace WPFeyes
                 p.X = hookStruct.pt.x;
                 p.Y = hookStruct.pt.y;
 
-                // Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y);
+               // Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y);
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
@@ -91,20 +89,26 @@ namespace WPFeyes
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook,
-
-            LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+        private static extern IntPtr SetWindowsHookEx(
+            int idHook,
+            LowLevelMouseProc lpfn, 
+            IntPtr hMod, 
+            uint dwThreadId
+            );
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        private static extern bool UnhookWindowsHookEx(
+            IntPtr hhk
+            );
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
-
-            IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr CallNextHookEx(
+            IntPtr hhk, 
+            int nCode,
+            IntPtr wParam, 
+            IntPtr lParam
+            );
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 

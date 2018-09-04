@@ -71,6 +71,8 @@ namespace WPFeyes
             newP = mouseCom.getPooint();
             oldP = mouseCom.getPooint();
 
+            Mouse.Capture(canvas1);
+
         }
 
         internal void restoreSettings()
@@ -188,6 +190,8 @@ namespace WPFeyes
         private void moveMouse(object sender, ElapsedEventArgs ea)
         {
             newP = mouseCom.getPooint();
+            // Point currentPosition = PointToScreen(Mouse.GetPosition(canvas1));
+
             if ( ! (newP.X == oldP.X && newP.Y == oldP.Y))
             {
                 // MouseEventArgs ea = new MouseEventArgs();
