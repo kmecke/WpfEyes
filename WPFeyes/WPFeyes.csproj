@@ -60,6 +60,9 @@
   <PropertyGroup>
     <ApplicationIcon>Rastergrafik.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
