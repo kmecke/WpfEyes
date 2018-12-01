@@ -15,7 +15,7 @@ namespace WPFeyes
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        int exNu = 0;
         ContextMenu cm;
         Point newP, oldP;
         System.Timers.Timer myTimer;
@@ -204,7 +204,14 @@ namespace WPFeyes
                     }));
                     calcPos();
                 }
-                catch { }
+                catch(Exception ex) {
+                    exNu++;
+                    if (exNu > 1000)
+                    {
+                        exNu = 0;
+                        throw (ex);
+                    }
+                }
             }
         }
 

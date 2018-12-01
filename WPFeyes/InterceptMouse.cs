@@ -35,10 +35,12 @@ namespace WPFeyes
         private static IntPtr SetHook(LowLevelMouseProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
-            using (ProcessModule curModule = curProcess.MainModule)
             {
-                return SetWindowsHookEx(WH_MOUSE_LL, proc,
-                    GetModuleHandle(curModule.ModuleName), 0);
+                using (ProcessModule curModule = curProcess.MainModule)
+                {
+                    return SetWindowsHookEx(WH_MOUSE_LL, proc,
+                        GetModuleHandle(curModule.ModuleName), 0);
+                }
             }
         }
 
@@ -111,7 +113,6 @@ namespace WPFeyes
             );
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
         private static extern IntPtr GetModuleHandle(string lpModuleName);
 
     }
